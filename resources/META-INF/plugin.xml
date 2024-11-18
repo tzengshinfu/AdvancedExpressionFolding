@@ -35,22 +35,23 @@
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
-  <depends>com.intellij.modules.java</depends>
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.java</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
     <lang.foldingBuilder language="JAVA" implementationClass="com.intellij.advancedExpressionFolding.AdvancedExpressionFoldingBuilder"/>
     <codeFoldingOptionsProvider instance="com.intellij.advancedExpressionFolding.AdvancedExpressionFoldingOptionsProvider"/>
     <applicationService serviceImplementation="com.intellij.advancedExpressionFolding.AdvancedExpressionFoldingSettings"/>
+    <editorFactoryMouseListener implementation="com.intellij.advancedExpressionFolding.AdvancedExpressionFoldingHighlightingComponent"/>
+    <editorFactoryMouseMotionListener implementation="com.intellij.advancedExpressionFolding.AdvancedExpressionFoldingHighlightingComponent"/>
   </extensions>
 
   <actions>
     <!-- Add your actions here -->
   </actions>
 
-  <project-components>
-    <component>
-      <implementation-class>com.intellij.advancedExpressionFolding.AdvancedExpressionFoldingHighlightingComponent</implementation-class>
-    </component>
-  </project-components>
+  <projectListeners>
+    <listener class="com.intellij.advancedExpressionFolding.AdvancedExpressionFoldingHighlightingComponent" topic="com.intellij.openapi.fileEditor.FileEditorManagerListener"/>
+  </projectListeners>
 </idea-plugin>

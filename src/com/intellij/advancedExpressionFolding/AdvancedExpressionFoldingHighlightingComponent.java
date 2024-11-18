@@ -3,7 +3,6 @@ package com.intellij.advancedExpressionFolding;
 import com.intellij.codeInsight.hint.DocumentFragmentTooltipRenderer;
 import com.intellij.codeInsight.hint.TooltipController;
 import com.intellij.codeInsight.hint.TooltipGroup;
-import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.editor.*;
 import com.intellij.openapi.editor.colors.EditorColors;
 import com.intellij.openapi.editor.event.EditorMouseEvent;
@@ -36,17 +35,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 // TODO: Support multi-line range highlighters
-public class AdvancedExpressionFoldingHighlightingComponent extends AbstractProjectComponent implements EditorMouseListener, EditorMouseMotionListener, FileEditorManagerListener {
+public class AdvancedExpressionFoldingHighlightingComponent implements EditorMouseListener, EditorMouseMotionListener, FileEditorManagerListener {
 
     private static final TooltipGroup FOLDING_TOOLTIP_GROUP = new TooltipGroup("FOLDING_TOOLTIP_GROUP", 10);
     private Map<Editor, Map<Expression, RangeHighlighterEx>> highlighters = new HashMap<>();
-    private TooltipController controller;
+    private Project myProject;
 
-    protected AdvancedExpressionFoldingHighlightingComponent(Project project, EditorFactory editorFactory) {
-        super(project);
-        this.controller = TooltipController.getInstance();
-        editorFactory.getEventMulticaster().addEditorMouseMotionListener(this, project);
-        editorFactory.getEventMulticaster().addEditorMouseListener(this, project);
+    protected AdvancedExpressionFoldingHighlightingComponent(Project project) {
+        this.myProject = project;
+    }
+
+    protected AdvancedExpressionFoldingHighlightingComponent() {
+
     }
 
     private static EditorEx getEditorEx(FileEditor fileEditor) {
@@ -54,7 +54,6 @@ public class AdvancedExpressionFoldingHighlightingComponent extends AbstractProj
         return editor instanceof EditorEx ? (EditorEx) editor : null;
     }
 
-    @Override
     public void projectOpened() {
         FileEditor[] editors = FileEditorManager.getInstance(myProject).getAllEditors();
         PsiDocumentManager documentManager = PsiDocumentManager.getInstance(myProject);
@@ -175,21 +174,17 @@ public class AdvancedExpressionFoldingHighlightingComponent extends AbstractProj
         return null;
     }
 
-    @Override
     public void projectClosed() {
     }
 
-    @Override
     public void initComponent() {
     }
 
-    @Override
     public void disposeComponent() {
 
     }
 
     @NotNull
-    @Override
     public String getComponentName() {
         return getClass().getName();
     }
@@ -203,11 +198,11 @@ public class AdvancedExpressionFoldingHighlightingComponent extends AbstractProj
     public void mouseClicked(EditorMouseEvent e) {
         if (e.getArea() == EditorMouseEventArea.EDITING_AREA) {
             @Nullable EditorEx editorEx = e.getEditor() instanceof EditorEx ? ((EditorEx) e.getEditor()) : null;
-            if (editorEx != null && editorEx.getProject() == myProject) {
+            if (editorEx != null && editorEx.getProject() == e.getEditor().getProject()) {
                 @NotNull VisualPosition visualPosition = editorEx.xyToVisualPosition(e.getMouseEvent().getPoint());
                 int offset = editorEx.logicalPositionToOffset(editorEx.visualToLogicalPosition(visualPosition));
                 try {
-                    @Nullable PsiFile psiFile = PsiDocumentManager.getInstance(myProject)
+                    @Nullable PsiFile psiFile = PsiDocumentManager.getInstance(e.getEditor().getProject())
                             .getPsiFile(editorEx.getDocument());
                     if (psiFile != null) {
                         @Nullable Expression expression = findHighlightingExpression(psiFile, editorEx.getDocument(),
@@ -250,13 +245,13 @@ public class AdvancedExpressionFoldingHighlightingComponent extends AbstractProj
 
     @Override
     public void mouseMoved(EditorMouseEvent e) {
-        if (!DumbService.isDumb(myProject) && e.getArea() == EditorMouseEventArea.EDITING_AREA) {
+        if (!DumbService.isDumb(e.getEditor().getProject()) && e.getArea() == EditorMouseEventArea.EDITING_AREA) {
             @Nullable EditorEx editorEx = e.getEditor() instanceof EditorEx ? ((EditorEx) e.getEditor()) : null;
-            if (editorEx != null && editorEx.getProject() == myProject) {
+            if (editorEx != null && editorEx.getProject() == e.getEditor().getProject()) {
                 @NotNull VisualPosition visualPosition = editorEx.xyToVisualPosition(e.getMouseEvent().getPoint());
                 int offset = editorEx.logicalPositionToOffset(editorEx.visualToLogicalPosition(visualPosition));
                 try {
-                    @Nullable PsiFile psiFile = PsiDocumentManager.getInstance(myProject)
+                    @Nullable PsiFile psiFile = PsiDocumentManager.getInstance(e.getEditor().getProject())
                             .getPsiFile(editorEx.getDocument());
                     if (psiFile != null) {
                         @Nullable Expression expression = findHighlightingExpression(psiFile, editorEx.getDocument(),
@@ -275,7 +270,7 @@ public class AdvancedExpressionFoldingHighlightingComponent extends AbstractProj
                                                 .convertPoint((Component) e.getMouseEvent().getSource(),
                                                         e.getMouseEvent().getPoint(),
                                                         editorEx.getComponent().getRootPane().getLayeredPane());
-                                        controller.showTooltip(editorEx, p, new DocumentFragmentTooltipRenderer(range),
+                                        TooltipController.getInstance().showTooltip(editorEx, p, new DocumentFragmentTooltipRenderer(range),
                                                 false, FOLDING_TOOLTIP_GROUP);
                                         return;
                                     }
@@ -287,7 +282,7 @@ public class AdvancedExpressionFoldingHighlightingComponent extends AbstractProj
                 }
             }
         }
-        controller.cancelTooltip(FOLDING_TOOLTIP_GROUP, e.getMouseEvent(), true);
+        TooltipController.getInstance().cancelTooltip(FOLDING_TOOLTIP_GROUP, e.getMouseEvent(), true);
     }
 
     @Override
