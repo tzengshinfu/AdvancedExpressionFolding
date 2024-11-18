@@ -1,6 +1,6 @@
 package com.intellij.advancedExpressionFolding;
 
-import com.intellij.codeInsight.folding.JavaCodeFoldingSettings;
+import com.intellij.advancedExpressionFolding.expression.Expression;
 import com.intellij.openapi.application.WriteAction;
 import com.intellij.openapi.editor.ex.RangeHighlighterEx;
 import com.intellij.openapi.fileEditor.FileEditorManager;
