@@ -1,5 +1,6 @@
 package com.intellij.advancedExpressionFolding;
 
+import com.intellij.advancedExpressionFolding.expression.Expression;
 import com.intellij.codeInsight.hint.DocumentFragmentTooltipRenderer;
 import com.intellij.codeInsight.hint.TooltipController;
 import com.intellij.codeInsight.hint.TooltipGroup;

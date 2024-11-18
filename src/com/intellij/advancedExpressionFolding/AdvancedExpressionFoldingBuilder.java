@@ -1,27 +1,84 @@
 package com.intellij.advancedExpressionFolding;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import com.intellij.advancedExpressionFolding.expression.*;
+import com.intellij.advancedExpressionFolding.expression.function.*;
+import com.intellij.advancedExpressionFolding.expression.operation.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.folding.FoldingBuilderEx;
 import com.intellij.lang.folding.FoldingDescriptor;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.*;
+import com.intellij.psi.JavaTokenType;
+import com.intellij.psi.PsiAnonymousClass;
+import com.intellij.psi.PsiArrayAccessExpression;
+import com.intellij.psi.PsiArrayInitializerExpression;
+import com.intellij.psi.PsiArrayType;
+import com.intellij.psi.PsiAssignmentExpression;
+import com.intellij.psi.PsiBinaryExpression;
+import com.intellij.psi.PsiBlockStatement;
+import com.intellij.psi.PsiCatchSection;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiCodeBlock;
+import com.intellij.psi.PsiConditionalExpression;
+import com.intellij.psi.PsiDeclarationStatement;
+import com.intellij.psi.PsiDoWhileStatement;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiExpression;
+import com.intellij.psi.PsiExpressionStatement;
+import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiForStatement;
+import com.intellij.psi.PsiForeachStatement;
+import com.intellij.psi.PsiIdentifier;
+import com.intellij.psi.PsiIfStatement;
+import com.intellij.psi.PsiJavaToken;
+import com.intellij.psi.PsiLiteralExpression;
+import com.intellij.psi.PsiLoopStatement;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiMethodCallExpression;
+import com.intellij.psi.PsiModifier;
+import com.intellij.psi.PsiModifierList;
+import com.intellij.psi.PsiNewExpression;
+import com.intellij.psi.PsiParenthesizedExpression;
+import com.intellij.psi.PsiPolyadicExpression;
+import com.intellij.psi.PsiPostfixExpression;
+import com.intellij.psi.PsiPrefixExpression;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.PsiReferenceExpression;
+import com.intellij.psi.PsiStatement;
+import com.intellij.psi.PsiSwitchStatement;
+import com.intellij.psi.PsiTryStatement;
+import com.intellij.psi.PsiType;
+import com.intellij.psi.PsiTypeCastExpression;
+import com.intellij.psi.PsiVariable;
+import com.intellij.psi.PsiWhileStatement;
+import com.intellij.psi.SyntaxTraverser;
 import com.intellij.psi.impl.source.tree.java.PsiAssignmentExpressionImpl;
 import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.CachedValuesManager;
 import com.intellij.psi.util.PsiModificationTracker;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class AdvancedExpressionFoldingBuilder extends FoldingBuilderEx {
 
@@ -1790,7 +1847,7 @@ public class AdvancedExpressionFoldingBuilder extends FoldingBuilderEx {
         return null;
     }
 
-    static int findDot(@NotNull Document document, int position, int i, boolean includeNewLines) {
+    public static int findDot(@NotNull Document document, int position, int i, boolean includeNewLines) {
         int offset = 0;
         while (Math.abs(offset) < 100 &&
                 position > 0 &&
