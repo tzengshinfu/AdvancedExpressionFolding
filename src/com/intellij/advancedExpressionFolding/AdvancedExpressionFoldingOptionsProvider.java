@@ -23,5 +23,6 @@ public class AdvancedExpressionFoldingOptionsProvider extends com.intellij.opena
         checkBox("Semicolons (read-only files)", () -> settings.getState().isSemicolonsCollapse(), aBoolean -> settings.getState().setSemicolonsCollapse(aBoolean));
         checkBox("Asserts", () -> settings.getState().isAssertsCollapse(), aBoolean -> settings.getState().setAssertsCollapse(aBoolean));
         checkBox("Input operator (+ - * / ===) to invoke corresponding method (experiment)", () -> settings.getState().isOperatorMethodInvoke(), aBoolean -> settings.getState().setOperatorMethodInvoke(aBoolean));
+        checkBox("Collapse immediately after invoking the corresponding method (experiment)", () -> settings.getState().isImmediatelyCollapse(), aBoolean -> settings.getState().setImmediatelyCollapse(aBoolean));
     }
 }
