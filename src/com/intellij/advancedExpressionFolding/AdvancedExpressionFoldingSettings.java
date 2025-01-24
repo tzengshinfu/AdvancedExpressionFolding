@@ -38,6 +38,7 @@ public class AdvancedExpressionFoldingSettings implements PersistentStateCompone
         myState.SEMICOLONS = state.SEMICOLONS;
         myState.ASSERTS = state.ASSERTS;
         myState.OPERATOR_METHOD = state.OPERATOR_METHOD;
+        myState.IMMEDIATELY = state.IMMEDIATELY;
     }
 
     public static final class State {
@@ -57,6 +58,7 @@ public class AdvancedExpressionFoldingSettings implements PersistentStateCompone
         private boolean SEMICOLONS = true;
         private boolean ASSERTS = true;
         private boolean OPERATOR_METHOD = false;
+        private boolean IMMEDIATELY = false;
 
         public boolean isArithmeticExpressionsCollapse() {
             return ARITHMETIC_EXPRESSIONS;
@@ -120,6 +122,10 @@ public class AdvancedExpressionFoldingSettings implements PersistentStateCompone
 
         public boolean isOperatorMethodInvoke() {
             return OPERATOR_METHOD;
+        }
+
+        public boolean isImmediatelyCollapse() {
+            return IMMEDIATELY;
         }
 
         public void setArithmeticExpressionsCollapse(boolean value) {
@@ -186,6 +192,10 @@ public class AdvancedExpressionFoldingSettings implements PersistentStateCompone
             OPERATOR_METHOD = value;
         }
 
+        public void setImmediatelyCollapse(boolean value) {
+            IMMEDIATELY = value;
+        }
+
         public void disableAll() {
             this.setVarExpressionsCollapse(false);
             this.setArithmeticExpressionsCollapse(false);
@@ -203,6 +213,7 @@ public class AdvancedExpressionFoldingSettings implements PersistentStateCompone
             this.setSemicolonsCollapse(false);
             this.setSlicingExpressionsCollapse(false);
             this.setOperatorMethodInvoke(false);
+            this.setImmediatelyCollapse(false);
         }
     }
 }

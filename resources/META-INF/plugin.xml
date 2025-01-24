@@ -47,6 +47,7 @@
     <typedHandler implementation="com.intellij.advancedExpressionFolding.AdvancedExpressionFoldingPlusTypedHandler"/>
     <completion.contributor language="JAVA" implementationClass="com.intellij.advancedExpressionFolding.AdvancedExpressionFoldingPlusCompletionContributor"/>
     <applicationService serviceImplementation="com.intellij.advancedExpressionFolding.AdvancedExpressionFoldingPlusOperatorMethodMapper"/>
+    <editorFactoryMouseListener implementation="com.intellij.advancedExpressionFolding.AdvancedExpressionFoldingPlusMultipleListener"/>
   </extensions>
 
   <actions>

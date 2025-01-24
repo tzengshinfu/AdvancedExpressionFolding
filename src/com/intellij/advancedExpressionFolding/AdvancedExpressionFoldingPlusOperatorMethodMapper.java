@@ -2,6 +2,7 @@ package com.intellij.advancedExpressionFolding;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.FoldingGroup;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +22,8 @@ public class AdvancedExpressionFoldingPlusOperatorMethodMapper {
     private final List<Mapper> mapperList = new ArrayList<Mapper>();
     PsiMethod method = null;
     String operator = null;
+    FoldingGroup foldingGroup = null;
+    int cursorPosition = -1;
 
     public PsiMethod getMethod() {
         return method;
@@ -28,6 +31,14 @@ public class AdvancedExpressionFoldingPlusOperatorMethodMapper {
 
     public String getOperator() {
         return operator;
+    }
+
+    public FoldingGroup getFoldingGroup() {
+        return foldingGroup;
+    }
+
+    public int getCursorPosition() {
+        return cursorPosition;
     }
 
     public void setMethod(PsiClass currentClass, String operator) {
@@ -53,9 +64,19 @@ public class AdvancedExpressionFoldingPlusOperatorMethodMapper {
         }
     }
 
+    public void setFoldingGroup(FoldingGroup foldingGroup) {
+        this.foldingGroup = foldingGroup;
+    }
+
+    public void setCursorPosition(int cursorPosition) {
+        this.cursorPosition = cursorPosition;
+    }
+
     public void clear() {
         method = null;
         operator = null;
+        foldingGroup = null;
+        cursorPosition = -1;
     }
 
     AdvancedExpressionFoldingPlusOperatorMethodMapper() {

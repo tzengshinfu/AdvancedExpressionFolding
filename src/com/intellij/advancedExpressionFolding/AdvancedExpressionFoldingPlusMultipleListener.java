@@ -5,14 +5,24 @@ import com.intellij.codeInsight.lookup.LookupListener;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.FoldRegion;
+import com.intellij.openapi.editor.event.EditorMouseEvent;
+import com.intellij.openapi.editor.event.EditorMouseListener;
+import com.intellij.openapi.editor.ex.EditorEx;
+import com.intellij.openapi.editor.ex.FoldingListener;
+import com.intellij.openapi.fileEditor.FileEditor;
+import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
+import org.jetbrains.annotations.NotNull;
 
-public class AdvancedExpressionFoldingPlusMultipleListener implements LookupListener {
+public class AdvancedExpressionFoldingPlusMultipleListener implements LookupListener, EditorMouseListener {
     private Project project = null;
     private Editor editor = null;
     private Document document = null;
     private int offset = 0;
+    private final AdvancedExpressionFoldingSettings settings = AdvancedExpressionFoldingSettings.getInstance();
     private final AdvancedExpressionFoldingPlusOperatorMethodMapper mapper = AdvancedExpressionFoldingPlusOperatorMethodMapper.getInstance();
 
     public AdvancedExpressionFoldingPlusMultipleListener(Project project, Editor editor, Document document, int offset) {
@@ -20,6 +30,32 @@ public class AdvancedExpressionFoldingPlusMultipleListener implements LookupList
         this.editor = editor;
         this.document = document;
         this.offset = offset;
+
+        FileEditor fileEditor = FileEditorManager.getInstance(project).getAllEditors()[0];
+        EditorEx editorEx = ((EditorEx) ((TextEditor) fileEditor).getEditor());
+
+        editorEx.getFoldingModel().addListener(new FoldingListener() {
+            @Override
+            public void onFoldRegionStateChange(@NotNull FoldRegion region) {
+                if (!settings.getState().isImmediatelyCollapse()) {
+                    return;
+                }
+
+                //region Positioned as a Folding Region just converted from operator to method
+                if (!(mapper.getCursorPosition() >= region.getStartOffset() && mapper.getCursorPosition() <= region.getEndOffset())) {
+                    return;
+                }
+                //endregion
+
+                mapper.setMethod(null, null);
+                mapper.setFoldingGroup(region.getGroup());
+                region.setExpanded(false);
+            }
+
+            @Override
+            public void onFoldProcessingEnd() {
+            }
+        }, fileEditor);
     }
 
     public AdvancedExpressionFoldingPlusMultipleListener() {
@@ -89,7 +125,26 @@ public class AdvancedExpressionFoldingPlusMultipleListener implements LookupList
             int shiftPosition = (rExpr != null) ? equalsCall.getText().lastIndexOf(")") : equalsCall.getText().lastIndexOf("(");
             int newCursorPosition = startingPosition + shiftPosition;
 
+            mapper.setCursorPosition(newCursorPosition);
             editor.getCaretModel().moveToOffset(newCursorPosition);
         });
+    }
+
+    @Override
+    public void mouseClicked(EditorMouseEvent e) {
+        if (!settings.getState().isImmediatelyCollapse()) {
+            return;
+        }
+
+        if (e.getCollapsedFoldRegion() == null) {
+            return;
+        }
+
+        if (e.getCollapsedFoldRegion().getGroup() != mapper.getFoldingGroup()) {
+            return;
+        }
+
+        mapper.clear();
+        e.getEditor().getFoldingModel().runBatchFoldingOperation(() -> e.getCollapsedFoldRegion().setExpanded(true));
     }
 }
