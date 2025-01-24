@@ -22,5 +22,6 @@ public class AdvancedExpressionFoldingOptionsProvider extends com.intellij.opena
         checkBox("Compact control flow condition syntax", () -> settings.getState().isCompactControlFlowSyntaxCollapse(), aBoolean -> settings.getState().setCompactControlFlowSyntaxCollapse(aBoolean));
         checkBox("Semicolons (read-only files)", () -> settings.getState().isSemicolonsCollapse(), aBoolean -> settings.getState().setSemicolonsCollapse(aBoolean));
         checkBox("Asserts", () -> settings.getState().isAssertsCollapse(), aBoolean -> settings.getState().setAssertsCollapse(aBoolean));
+        checkBox("Input operator (+ - * / ===) to invoke corresponding method (experiment)", () -> settings.getState().isOperatorMethodInvoke(), aBoolean -> settings.getState().setOperatorMethodInvoke(aBoolean));
     }
 }
