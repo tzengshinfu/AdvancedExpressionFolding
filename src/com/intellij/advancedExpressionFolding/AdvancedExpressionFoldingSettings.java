@@ -19,8 +19,8 @@ public class AdvancedExpressionFoldingSettings implements PersistentStateCompone
     @NotNull
     public static AdvancedExpressionFoldingSettings getInstance() {
         return ServiceManager.getService(AdvancedExpressionFoldingSettings.class);
-    }     
-    
+    }
+
     @Override
     public void loadState(State state) {
         myState.ARITHMETIC_EXPRESSIONS = state.ARITHMETIC_EXPRESSIONS;
@@ -37,6 +37,7 @@ public class AdvancedExpressionFoldingSettings implements PersistentStateCompone
         myState.COMPACT_CONTROL_FLOW_SYNTAX = state.COMPACT_CONTROL_FLOW_SYNTAX;
         myState.SEMICOLONS = state.SEMICOLONS;
         myState.ASSERTS = state.ASSERTS;
+        myState.OPERATOR_METHOD = state.OPERATOR_METHOD;
     }
 
     public static final class State {
@@ -55,6 +56,7 @@ public class AdvancedExpressionFoldingSettings implements PersistentStateCompone
         private boolean CONTROL_FLOW_MULTI_STATEMENT_CODE_BLOCK = false;
         private boolean SEMICOLONS = true;
         private boolean ASSERTS = true;
+        private boolean OPERATOR_METHOD = false;
 
         public boolean isArithmeticExpressionsCollapse() {
             return ARITHMETIC_EXPRESSIONS;
@@ -114,6 +116,10 @@ public class AdvancedExpressionFoldingSettings implements PersistentStateCompone
 
         public boolean isAssertsCollapse() {
             return ASSERTS;
+        }
+
+        public boolean isOperatorMethodInvoke() {
+            return OPERATOR_METHOD;
         }
 
         public void setArithmeticExpressionsCollapse(boolean value) {
@@ -176,6 +182,10 @@ public class AdvancedExpressionFoldingSettings implements PersistentStateCompone
             ASSERTS = value;
         }
 
+        public void setOperatorMethodInvoke(boolean value) {
+            OPERATOR_METHOD = value;
+        }
+
         public void disableAll() {
             this.setVarExpressionsCollapse(false);
             this.setArithmeticExpressionsCollapse(false);
@@ -192,6 +202,7 @@ public class AdvancedExpressionFoldingSettings implements PersistentStateCompone
             this.setRangeExpressionsCollapse(false);
             this.setSemicolonsCollapse(false);
             this.setSlicingExpressionsCollapse(false);
+            this.setOperatorMethodInvoke(false);
         }
     }
 }
