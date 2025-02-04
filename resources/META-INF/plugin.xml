@@ -13,18 +13,52 @@
 
       <p>For more information, read the <a href="https://medium.com/@andrey_cheptsov/making-java-code-easier-to-read-without-changing-it-adeebd5c36de" target="_blank">blog post</a>.</p>
 
-      <p>To get access to experimental features, go to <strong>Settings</strong> |
-      <strong>Plugins</strong> | <strong>Browse Repositories</strong> | <strong>Manage Repositories</strong> and
-      add <a href="https://plugins.jetbrains.com/plugins/EAP/com.intellij.bigdecimal-folding">https://plugins.jetbrains.com/plugins/EAP/com.intellij.bigdecimal-folding</a>
-      as a custom plugin repository URL.</p>
+      <h3>Custom Color Scheme</h3>
 
       <p>For more clarity, you may try to adjust your color scheme: go to <strong>Settings</strong> | <strong>Editor</strong> |
       <strong>Colors &amp; Fonts</strong> | <strong>General</strong>, select <strong>Folded text</strong>,
       uncheck the <strong>Background</strong> color, and change the
       <strong>Foreground</strong> color to #000091 for the default scheme and #7CA0BB for Darcula.</p>
 
-      To disable certain types of folding, go to <strong>Settings</strong> | <strong>Editor</strong> |
-      <strong>General</strong> | <strong>Code Folding</strong>.
+      <h3>Disabling Certain Foldings</h3>
+
+      <p>To disable certain types of folding, go to <strong>Settings</strong> | <strong>Editor</strong> |
+      <strong>General</strong> | <strong>Code Folding</strong> | <strong>Fold by default:</strong> | <strong>Advanced Java Folding Plus</strong>.</p>
+
+      <h2>About this plugin</h2>
+      <hr />
+
+      <p>This plugin is fork of <a href="https://github.com/cheptsov/AdvancedExpressionFolding" target="_blank">Advanced Java Folding</a>.<br />
+        The original plugin focuses on simplifying verbose syntax and reducing the mental burden on developers.<br />
+        On this basis, <a href="https://github.com/tzengshinfu/AdvancedExpressionFolding" target="_blank">Advanced Java Folding Plus</a> adds quick input functions to reduce the burden on developers' fingers.</p>
+
+      <h3>New features</h3>
+
+      <ul>
+        <li><h4>Input operator (+ - * / ===) to invoke the corresponding method (experiment)</h4>
+            <p>You can now directly enter an operator to call the corresponding method (in the form of a code completion autopopup).<br />
+              For example, consider the following code:</p>
+
+            <p><code>
+              BigDecimal a = new BigDecimal("1.0");<br />
+              BigDecimal b = new BigDecimal("2.0");<br />
+              BigDecimal c = a</code></p>
+
+            <p>When entering <code>+</code> after <code>a</code> on the third line, an autopopup for the corresponding method <code>add(BigDecimal augend)</code> will automatically appear.<br />
+              Upon selection, <code>a +</code> will be converted to <code>a.add()</code>, with the cursor positioned inside the parentheses awaiting the input of parameter <code>b</code>.<br />
+              Alternatively, if <code>a</code> and <code>b</code> are already written, entering <code>+</code> between them will also trigger the autopopup for <code>add(BigDecimal augend)</code>.<br />
+              Upon selection, <code>a + b</code> will be converted to <code>a.add(b)</code>.</p>
+
+            <p>Currently supported operations:
+              <ul>
+                <li><strong>BigDecimal/BigInteger</strong>: <code>+</code> → <code>add</code>, <code>-</code> → <code>subtract</code>, <code>*</code> → <code>multiply</code>, <code>/</code> → <code>divide</code></li>
+                <li><strong>All classes</strong>: <code>===</code> → <code>equals</code></li>
+              </ul></p></li>
+
+        <li><h4>Collapse immediately after invoking the corresponding method (experiment)</h4>
+            <p>To reduce visual clutter, the method call will automatically collapse into operator form after invocation.<br />
+              For example, when <code>a.add(b)</code> is completed and the cursor moves out of the parentheses, it will automatically collapse into <code>a + b</code>.</p></li>
+      </ul>
     ]]></description>
 
   <change-notes></change-notes>
