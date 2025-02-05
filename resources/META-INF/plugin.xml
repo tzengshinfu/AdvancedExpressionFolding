@@ -1,6 +1,7 @@
 <idea-plugin>
   <id>com.tzengshinfu.advanced-java-folding-plus</id>
   <name>Advanced Java Folding Plus</name>
+  <version>0.10.0</version>
   <vendor email="tzengshinfu@gmail.com" url="https://github.com/tzengshinfu/AdvancedExpressionFolding">tzengshinfu</vendor>
 
   <description><![CDATA[
