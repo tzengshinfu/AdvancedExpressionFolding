@@ -68,7 +68,7 @@ public class SetLiteral extends Function {
                 Collections.addAll(descriptors, operand.buildFoldRegions(operand.getElement(), document, this));
             }
         }
-        return descriptors.toArray(FoldingDescriptor.EMPTY);
+        return descriptors.toArray(FoldingDescriptor.EMPTY_ARRAY);
     }
 
     @NotNull

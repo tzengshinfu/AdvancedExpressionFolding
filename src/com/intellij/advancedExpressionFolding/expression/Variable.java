@@ -68,7 +68,7 @@ public class Variable extends Expression implements ArithmeticExpression {
                         TextRange.create(variableTextRange.getEndOffset(), textRange.getEndOffset()), group, ""));
             }
         }
-        return descriptors.toArray(FoldingDescriptor.EMPTY);
+        return descriptors.toArray(FoldingDescriptor.EMPTY_ARRAY);
     }
 
     @Override

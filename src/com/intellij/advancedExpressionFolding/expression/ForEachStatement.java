@@ -54,6 +54,6 @@ public class ForEachStatement extends Expression {
                 declarationTextRange.getEndOffset()), group, AdvancedExpressionFoldingSettings.getInstance().getState().isCompactControlFlowSyntaxCollapse()
                 ? " {\n"
                 : ") {\n"));
-        return descriptors.toArray(FoldingDescriptor.EMPTY);
+        return descriptors.toArray(FoldingDescriptor.EMPTY_ARRAY);
     }
 }

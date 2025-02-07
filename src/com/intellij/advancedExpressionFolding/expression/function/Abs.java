@@ -42,6 +42,6 @@ public class Abs extends Function implements ArithmeticExpression {
             Collections.addAll(descriptors,
                     operands.get(0).buildFoldRegions(operands.get(0).getElement(), document, this));
         }
-        return descriptors.toArray(FoldingDescriptor.EMPTY);
+        return descriptors.toArray(FoldingDescriptor.EMPTY_ARRAY);
     }
 }

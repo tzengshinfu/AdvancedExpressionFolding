@@ -106,7 +106,7 @@ public class Append extends Operation {
                         range, group, ""));
             }
         }
-        return descriptors.toArray(FoldingDescriptor.EMPTY);
+        return descriptors.toArray(FoldingDescriptor.EMPTY_ARRAY);
     }
 
     @Override

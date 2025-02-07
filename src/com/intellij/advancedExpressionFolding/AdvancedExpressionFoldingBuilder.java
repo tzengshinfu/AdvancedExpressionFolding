@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 import com.intellij.advancedExpressionFolding.expression.*;
 import com.intellij.advancedExpressionFolding.expression.function.*;
 import com.intellij.advancedExpressionFolding.expression.operation.*;
+import com.intellij.psi.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,51 +31,6 @@ import com.intellij.lang.folding.FoldingDescriptor;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.JavaTokenType;
-import com.intellij.psi.PsiAnonymousClass;
-import com.intellij.psi.PsiArrayAccessExpression;
-import com.intellij.psi.PsiArrayInitializerExpression;
-import com.intellij.psi.PsiArrayType;
-import com.intellij.psi.PsiAssignmentExpression;
-import com.intellij.psi.PsiBinaryExpression;
-import com.intellij.psi.PsiBlockStatement;
-import com.intellij.psi.PsiCatchSection;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiCodeBlock;
-import com.intellij.psi.PsiConditionalExpression;
-import com.intellij.psi.PsiDeclarationStatement;
-import com.intellij.psi.PsiDoWhileStatement;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiExpression;
-import com.intellij.psi.PsiExpressionStatement;
-import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiForStatement;
-import com.intellij.psi.PsiForeachStatement;
-import com.intellij.psi.PsiIdentifier;
-import com.intellij.psi.PsiIfStatement;
-import com.intellij.psi.PsiJavaToken;
-import com.intellij.psi.PsiLiteralExpression;
-import com.intellij.psi.PsiLoopStatement;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiMethodCallExpression;
-import com.intellij.psi.PsiModifier;
-import com.intellij.psi.PsiModifierList;
-import com.intellij.psi.PsiNewExpression;
-import com.intellij.psi.PsiParenthesizedExpression;
-import com.intellij.psi.PsiPolyadicExpression;
-import com.intellij.psi.PsiPostfixExpression;
-import com.intellij.psi.PsiPrefixExpression;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.PsiReferenceExpression;
-import com.intellij.psi.PsiStatement;
-import com.intellij.psi.PsiSwitchStatement;
-import com.intellij.psi.PsiTryStatement;
-import com.intellij.psi.PsiType;
-import com.intellij.psi.PsiTypeCastExpression;
-import com.intellij.psi.PsiVariable;
-import com.intellij.psi.PsiWhileStatement;
-import com.intellij.psi.SyntaxTraverser;
 import com.intellij.psi.impl.source.tree.java.PsiAssignmentExpressionImpl;
 import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.CachedValuesManager;
@@ -702,9 +658,9 @@ public class AdvancedExpressionFoldingBuilder extends FoldingBuilderEx {
             PsiBinaryExpression condition = (PsiBinaryExpression) element.getCondition();
             if (condition.getOperationSign().getText().equals("!=")
                     && element.getElseBranch() == null
-                    && (condition.getLOperand().getType() == PsiType.NULL
+                    && (condition.getLOperand().getType() == PsiTypes.nullType()
                     && condition.getROperand() != null
-                    || condition.getROperand() != null && condition.getROperand().getType() == PsiType.NULL)
+                    || condition.getROperand() != null && condition.getROperand().getType() == PsiTypes.nullType())
                     && element.getThenBranch() != null) {
                 PsiStatement thenStatement = element.getThenBranch();
                 if (thenStatement.getChildren().length == 1 && thenStatement
@@ -716,7 +672,7 @@ public class AdvancedExpressionFoldingBuilder extends FoldingBuilderEx {
                         return null;
                     }
                 }
-                PsiElement qualifier = condition.getLOperand().getType() == PsiType.NULL
+                PsiElement qualifier = condition.getLOperand().getType() == PsiTypes.nullType()
                         ? condition.getROperand()
                         : condition.getLOperand();
                 if (qualifier instanceof PsiReferenceExpression
@@ -772,11 +728,11 @@ public class AdvancedExpressionFoldingBuilder extends FoldingBuilderEx {
             @NotNull PsiBinaryExpression condition = (PsiBinaryExpression) element.getCondition();
             if (condition.getOperationSign().getText().equals("!=")
                     && condition.getROperand() != null
-                    && (condition.getLOperand().getType() == PsiType.NULL
-                    || condition.getROperand().getType() == PsiType.NULL)
+                    && (condition.getLOperand().getType() == PsiTypes.nullType()
+                    || condition.getROperand().getType() == PsiTypes.nullType())
                     && element.getThenExpression() != null
                     && element.getElseExpression() != null) {
-                PsiElement qualifier = condition.getLOperand().getType() == PsiType.NULL
+                PsiElement qualifier = condition.getLOperand().getType() == PsiTypes.nullType()
                         ? condition.getROperand()
                         : condition.getLOperand();
                 if (qualifier instanceof PsiReferenceExpression
@@ -1431,7 +1387,7 @@ public class AdvancedExpressionFoldingBuilder extends FoldingBuilderEx {
                                     }
                                 case "remove":
                                     if (method.getParameterList().getParameters().length == 1
-                                            && !method.getParameterList().getParameters()[0].getType().equals(PsiType.INT)) {
+                                            && !method.getParameterList().getParameters()[0].getType().equals(PsiTypes.intType())) {
                                         if (element.getParent() instanceof PsiStatement && settings.getState().isConcatenationExpressionsCollapse()) {
                                             return new RemoveAssignForCollection(element, element.getTextRange(), Arrays.asList(qualifierExpression, argumentExpression));
                                         }

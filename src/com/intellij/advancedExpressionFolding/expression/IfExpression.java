@@ -187,7 +187,7 @@ public class IfExpression extends Expression {
                 }
             }
         }
-        return descriptors.toArray(FoldingDescriptor.EMPTY);
+        return descriptors.toArray(FoldingDescriptor.EMPTY_ARRAY);
     }
 
     @Override

@@ -50,6 +50,6 @@ public class SyntheticExpressionImpl extends Expression {
                 Collections.addAll(descriptors, child.buildFoldRegions(child.getElement(), document, this));
             }
         }
-        return descriptors.toArray(FoldingDescriptor.EMPTY);
+        return descriptors.toArray(FoldingDescriptor.EMPTY_ARRAY);
     }
 }

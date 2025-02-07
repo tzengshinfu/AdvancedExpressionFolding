@@ -46,6 +46,6 @@ public class Pow extends Function implements ArithmeticExpression {
                         getTextRange().getEndOffset()), group,
                 operands.get(0) instanceof Operation
                         ? ")" + superscript(b) : superscript(b)));
-        return descriptors.toArray(FoldingDescriptor.EMPTY);
+        return descriptors.toArray(FoldingDescriptor.EMPTY_ARRAY);
     }
 }
