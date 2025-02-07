@@ -65,7 +65,7 @@ public class StreamExpression extends Expression {
                             FoldingGroup.newGroup(StreamExpression.class.getName()), ".")
             };
         }
-        return FoldingDescriptor.EMPTY;
+        return FoldingDescriptor.EMPTY_ARRAY;
     }
 
     @Override

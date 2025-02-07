@@ -6,7 +6,7 @@ import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.*;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiType;
-import com.intellij.util.Icons;
+import com.intellij.util.PlatformIcons;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -48,13 +48,11 @@ public class AdvancedExpressionFoldingPlusCompletionContributor extends Completi
         result.stopHere();
 
         // Generate method parameter list string
-        String arguments = String.join(", ", Arrays.stream(mapper.getMethod().getParameters()).map(p -> {
-            return ((PsiType) p.getType()).getPresentableText() + " " + p.getName();
-        }).toList());
+        String arguments = String.join(", ", Arrays.stream(mapper.getMethod().getParameterList().getParameters()).map(p -> p.getType().getPresentableText() + " " + p.getName()).toList());
 
         // Create completion lookup element
         LookupElement item = LookupElementBuilder.create("").withBoldness(true)
-                .withIcon(Icons.METHOD_ICON)                        // Set method icon
+                .withIcon(PlatformIcons.METHOD_ICON)                        // Set method icon
                 .withPresentableText(mapper.getMethod().getName())  // Set display text
                 .withCaseSensitivity(true)                         // Enable case sensitivity
                 .withTypeText(mapper.getMethod().getReturnType().getPresentableText())  // Set return type text

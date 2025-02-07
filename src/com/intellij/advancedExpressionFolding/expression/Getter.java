@@ -38,6 +38,6 @@ public class Getter extends Expression {
         if (object != null && object.supportsFoldRegions(document, this)) {
             Collections.addAll(descriptors, object.buildFoldRegions(object.getElement(), document, this));
         }
-        return descriptors.toArray(FoldingDescriptor.EMPTY);
+        return descriptors.toArray(FoldingDescriptor.EMPTY_ARRAY);
     }
 }

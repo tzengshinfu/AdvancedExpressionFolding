@@ -12,6 +12,7 @@ import com.intellij.openapi.editor.event.EditorMouseListener;
 import com.intellij.openapi.editor.event.EditorMouseMotionListener;
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.editor.ex.FoldingListener;
+import com.intellij.openapi.editor.ex.FoldingModelEx;
 import com.intellij.openapi.editor.ex.RangeHighlighterEx;
 import com.intellij.openapi.editor.impl.FoldingModelImpl;
 import com.intellij.openapi.editor.markup.HighlighterLayer;
@@ -33,6 +34,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 // TODO: Support multi-line range highlighters
@@ -150,12 +152,25 @@ public class AdvancedExpressionFoldingHighlightingComponent implements EditorMou
         final FoldingGroup group = fold.getGroup();
         final int foldStart = fold.getStartOffset();
         if (group != null) {
-            final int endOffset = ((FoldingModelImpl) editorEx.getFoldingModel()).getEndOffset(group);
+            final int endOffset = getFoldingGroupEndOffset(editorEx, group);
             return new DocumentFragment(editorEx.getDocument(), foldStart, endOffset);
         }
 
         final int oldEnd = fold.getEndOffset();
         return new DocumentFragment(editorEx.getDocument(), foldStart, oldEnd);
+    }
+
+    private int getFoldingGroupEndOffset(EditorEx editorEx, @NotNull FoldingGroup group) {
+        List<FoldRegion> regions = editorEx.getFoldingModel().getGroupedRegions(group);
+        int endOffset = 0;
+
+        for(FoldRegion region : regions) {
+            if (region.isValid()) {
+                endOffset = Math.max(endOffset, region.getEndOffset());
+            }
+        }
+
+        return endOffset;
     }
 
     private Expression findHighlightingExpression(@NotNull PsiFile psiFile, @NotNull Document document,

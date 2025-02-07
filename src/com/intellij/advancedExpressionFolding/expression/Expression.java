@@ -173,7 +173,7 @@ public abstract class Expression {
     }
 
     public FoldingDescriptor[] buildFoldRegions(@NotNull PsiElement element, @NotNull Document document, @Nullable Expression parent) {
-        return FoldingDescriptor.EMPTY;
+        return FoldingDescriptor.EMPTY_ARRAY;
     }
 
     public FoldingDescriptor[] buildFoldRegions(@NotNull PsiElement element, @NotNull Document document, @Nullable Expression parent,

@@ -147,6 +147,6 @@ public class Range extends Expression {
         if (endRange.supportsFoldRegions(document, this)) {
             Collections.addAll(descriptors, endRange.buildFoldRegions(endRange.getElement(), document, this));
         }
-        return descriptors.toArray(FoldingDescriptor.EMPTY);
+        return descriptors.toArray(FoldingDescriptor.EMPTY_ARRAY);
     }
 }

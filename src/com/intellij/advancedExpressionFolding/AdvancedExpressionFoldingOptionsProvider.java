@@ -1,12 +1,12 @@
 package com.intellij.advancedExpressionFolding;
 
-import com.intellij.ide.plugins.PluginManagerCore;
+import com.intellij.ide.plugins.PluginManager;
 
 public class AdvancedExpressionFoldingOptionsProvider extends com.intellij.openapi.options.BeanConfigurable<AdvancedExpressionFoldingSettings.State> implements com.intellij.application.options.editor.CodeFoldingOptionsProvider {
     protected AdvancedExpressionFoldingOptionsProvider() {
         super(AdvancedExpressionFoldingSettings.getInstance().getState());
         AdvancedExpressionFoldingSettings settings = AdvancedExpressionFoldingSettings.getInstance();
-        setTitle(PluginManagerCore.getPluginDescriptorOrPlatformByClassName(getClass().getName()).getName());
+        setTitle(PluginManager.getPluginByClass(getClass()).getName());
         checkBox("Math, BigDecimal and BigInteger expressions (deprecated)", () -> settings.getState().isArithmeticExpressionsCollapse(), aBoolean -> settings.getState().setArithmeticExpressionsCollapse(aBoolean));
         checkBox("StringBuilder.append and Collection.add/remove expressions, interpolated Strings and Stream expressions", () -> settings.getState().isConcatenationExpressionsCollapse(), aBoolean -> settings.getState().setConcatenationExpressionsCollapse(aBoolean));
         checkBox("List.subList and String.substring expressions", () -> settings.getState().isSlicingExpressionsCollapse(), aBoolean -> settings.getState().setSlicingExpressionsCollapse(aBoolean));
