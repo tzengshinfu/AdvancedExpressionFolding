@@ -3,6 +3,14 @@ plugins {
     id("org.jetbrains.intellij.platform") version "2.0.1"
 }
 
+intellijPlatform {
+    pluginConfiguration {
+        ideaVersion {
+            untilBuild = provider { null }
+        }
+    }
+}
+
 repositories {
     mavenCentral()
 
@@ -26,10 +34,6 @@ dependencies {
 }
 
 tasks {
-    patchPluginXml {
-        untilBuild = "242.*"
-    }
-
     signPlugin {
         certificateChain.set(providers.environmentVariable("CERTIFICATE_CHAIN"))
         privateKey.set(providers.environmentVariable("PRIVATE_KEY"))
