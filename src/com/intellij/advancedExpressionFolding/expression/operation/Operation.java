@@ -76,7 +76,7 @@ public abstract class Operation extends Expression {
         int offset = getTextRange().getStartOffset();
         if (operands.get(0).getTextRange().getStartOffset() > offset) {
             descriptors.add(new FoldingDescriptor(element.getNode(),
-                    TextRange.create(offset, operands.get(0).getTextRange().getStartOffset()), group, ""));
+                    TextRange.create(offset, operands.get(0).getTextRange().getStartOffset()), group, "\u200B"));
         }
         offset = operands.get(0).getTextRange().getEndOffset();
         for (int i = 1; i < operands.size(); i++) {
@@ -90,7 +90,7 @@ public abstract class Operation extends Expression {
         }
         if (offset < getTextRange().getEndOffset()) {
             descriptors.add(new FoldingDescriptor(element.getNode(),
-                    TextRange.create(offset, getTextRange().getEndOffset()), group, ""));
+                    TextRange.create(offset, getTextRange().getEndOffset()), group, "\u200B"));
         }
         for (Expression operand : operands) {
             if (operand.supportsFoldRegions(document, this)) {

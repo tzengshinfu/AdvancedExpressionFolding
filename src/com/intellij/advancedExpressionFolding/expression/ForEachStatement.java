@@ -44,10 +44,10 @@ public class ForEachStatement extends Expression {
         if (AdvancedExpressionFoldingSettings.getInstance().getState().isCompactControlFlowSyntaxCollapse()
                 && this.element.getLParenth() != null) {
             descriptors.add(new FoldingDescriptor(element.getNode(), TextRange.create(this.element.getLParenth().getTextRange().getStartOffset(),
-                    this.element.getLParenth().getTextRange().getStartOffset() + 1), group, ""));
+                    this.element.getLParenth().getTextRange().getStartOffset() + 1), group, "\u200B"));
         }
         descriptors.add(new FoldingDescriptor(element.getNode(), TextRange.create(textRange.getStartOffset(),
-                declarationTextRange.getStartOffset()), group, ""));
+                declarationTextRange.getStartOffset()), group, "\u200B"));
         descriptors.add(new FoldingDescriptor(element.getNode(), TextRange.create(variableTextRange.getEndOffset(),
                 arrayTextRange.getStartOffset()), group, " : "));
         descriptors.add(new FoldingDescriptor(element.getNode(), TextRange.create(arrayTextRange.getEndOffset(),

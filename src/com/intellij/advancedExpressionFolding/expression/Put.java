@@ -42,7 +42,7 @@ public class Put extends Expression {
         if (value.getTextRange().getEndOffset() < getTextRange().getEndOffset()) {
             descriptors.add(new FoldingDescriptor(element.getNode(),
                     TextRange.create(value.getTextRange().getEndOffset(),
-                            getTextRange().getEndOffset()), group, ""));
+                            getTextRange().getEndOffset()), group, "\u200B"));
         }
         if (object.supportsFoldRegions(document, this)) {
             Collections.addAll(descriptors, object.buildFoldRegions(object.getElement(), document, this));

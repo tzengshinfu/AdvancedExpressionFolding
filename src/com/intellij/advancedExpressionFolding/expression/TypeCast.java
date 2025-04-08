@@ -40,7 +40,7 @@ public class TypeCast extends Expression {
             if (dotAccess) {
                 descriptors.add(new FoldingDescriptor(element.getNode(),
                         TextRange.create(getTextRange().getStartOffset(),
-                                object.getTextRange().getStartOffset()), group, ""));
+                                object.getTextRange().getStartOffset()), group, "\u200B"));
                 descriptors.add(new FoldingDescriptor(element.getNode(),
                                         TextRange.create(object.getTextRange().getEndOffset(),
                                                 getTextRange().getEndOffset() + 1), group, ".")
@@ -49,16 +49,16 @@ public class TypeCast extends Expression {
                 descriptors.add(new FoldingDescriptor(element.getNode(),
                                         TextRange.create(getTextRange().getStartOffset(),
                                                 object.getTextRange().getStartOffset()), group,
-                        "" /* TODO: It used to be  "~" */)
+                        "\u200B" /* TODO: It used to be  "~" */)
                 );
                 descriptors.add(new FoldingDescriptor(element.getNode(),
                         TextRange.create(object.getTextRange().getEndOffset(),
-                                getTextRange().getEndOffset()), group, ""));
+                                getTextRange().getEndOffset()), group, "\u200B"));
             }
         } else {
             descriptors.add(new FoldingDescriptor(element.getNode(),
                     TextRange.create(getTextRange().getStartOffset(),
-                            object.getTextRange().getStartOffset()), group, "" /* TODO: It used to be  "~" */));
+                            object.getTextRange().getStartOffset()), group, "\u200B" /* TODO: It used to be  "~" */));
         }
         if (object.supportsFoldRegions(document, this)) {
             Collections.addAll(descriptors, object.buildFoldRegions(object.getElement(), document, this));

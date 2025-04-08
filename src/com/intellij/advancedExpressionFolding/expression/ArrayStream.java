@@ -34,10 +34,10 @@ public class ArrayStream extends Expression {
         ArrayList<FoldingDescriptor> descriptors = new ArrayList<>();
         descriptors.add(new FoldingDescriptor(element.getNode(),
                 TextRange.create(textRange.getStartOffset(),
-                        argument.getTextRange().getStartOffset()), group, ""));
+                        argument.getTextRange().getStartOffset()), group, "\u200B"));
         descriptors.add(new FoldingDescriptor(element.getNode(),
                 TextRange.create(argument.getTextRange().getEndOffset(),
-                        textRange.getEndOffset() + (noSpaces ? 1 : 0)), group, noSpaces ? "." : ""));
+                        textRange.getEndOffset() + (noSpaces ? 1 : 0)), group, noSpaces ? "." : "\u200B"));
         if (argument.supportsFoldRegions(document, this)) {
             Collections.addAll(descriptors, argument.buildFoldRegions(argument.getElement(), document, this));
         }

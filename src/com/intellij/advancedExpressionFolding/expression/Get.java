@@ -58,7 +58,7 @@ public class Get extends Expression {
                             key.getTextRange().getStartOffset() - 1), group, "." + (/*style == Style.FIRST ? "first" : */"last")));
             descriptors.add(new FoldingDescriptor(element.getNode(),
                     TextRange.create(key.getTextRange().getStartOffset(),
-                            key.getTextRange().getEndOffset()), group, ""));
+                            key.getTextRange().getEndOffset()), group, "\u200B"));
         }
         // TODO: Generalize it
         if (object.supportsFoldRegions(document, this)) {

@@ -42,7 +42,7 @@ public class Slice extends Function {
                 operands.get(1).getTextRange().getStartOffset() + 2)).equals(" ")) {
             descriptors.add(new FoldingDescriptor(element.getNode(),
                     TextRange.create(operands.get(1).getTextRange().getStartOffset() + 1,
-                            operands.get(1).getTextRange().getStartOffset() + 2), group, ""));
+                            operands.get(1).getTextRange().getStartOffset() + 2), group, "\u200B"));
         }
         if (operands.size() > 2) {
             descriptors.add(new FoldingDescriptor(element.getNode(),
@@ -54,7 +54,7 @@ public class Slice extends Function {
                     operands.get(2).getTextRange().getStartOffset() + 2)).equals(" ")) {
                 descriptors.add(new FoldingDescriptor(element.getNode(),
                         TextRange.create(operands.get(2).getTextRange().getStartOffset() + 1,
-                                operands.get(2).getTextRange().getStartOffset() + 2), group, ""));
+                                operands.get(2).getTextRange().getStartOffset() + 2), group, "\u200B"));
             }
         }
         descriptors.add(new FoldingDescriptor(element.getNode(),

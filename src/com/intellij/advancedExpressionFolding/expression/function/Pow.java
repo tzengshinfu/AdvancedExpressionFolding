@@ -35,7 +35,7 @@ public class Pow extends Function implements ArithmeticExpression {
             descriptors.add(new FoldingDescriptor(element.getNode(),
                     TextRange.create(getTextRange().getStartOffset(),
                             operands.get(0).getTextRange().getStartOffset()), group, operands.get(0) instanceof Operation
-                    ? "(" : ""));
+                    ? "(" : "\u200B"));
         }
         if (operands.get(0).supportsFoldRegions(document, this)) {
             Collections.addAll(descriptors, operands.get(0).buildFoldRegions(operands.get(0).getElement(), document, this));

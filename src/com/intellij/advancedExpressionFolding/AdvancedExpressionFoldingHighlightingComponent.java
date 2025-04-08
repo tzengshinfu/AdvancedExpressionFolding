@@ -260,48 +260,6 @@ public class AdvancedExpressionFoldingHighlightingComponent implements EditorMou
     }
 
     @Override
-    public void mouseMoved(EditorMouseEvent e) {
-        if (!DumbService.isDumb(e.getEditor().getProject()) && e.getArea() == EditorMouseEventArea.EDITING_AREA) {
-            @Nullable EditorEx editorEx = e.getEditor() instanceof EditorEx ? ((EditorEx) e.getEditor()) : null;
-            if (editorEx != null && editorEx.getProject() == e.getEditor().getProject()) {
-                @NotNull VisualPosition visualPosition = editorEx.xyToVisualPosition(e.getMouseEvent().getPoint());
-                int offset = editorEx.logicalPositionToOffset(editorEx.visualToLogicalPosition(visualPosition));
-                try {
-                    @Nullable PsiFile psiFile = PsiDocumentManager.getInstance(e.getEditor().getProject())
-                            .getPsiFile(editorEx.getDocument());
-                    if (psiFile != null) {
-                        @Nullable Expression expression = findHighlightingExpression(psiFile, editorEx.getDocument(),
-                                offset);
-                        if (expression != null) {
-                            TextRange htr = expression.getHighlightedTextRange();
-                            if (htr.contains(offset)) {
-                                for (FoldRegion region : editorEx.getFoldingModel().getAllFoldRegions()) {
-                                    if (htr.getStartOffset() <= region.getStartOffset()
-                                            && region.getEndOffset() <= htr.getEndOffset()
-                                            && isHighlightingRegion(region)
-                                            && !region.isExpanded()) {
-                                        // TODO: Sometimes the popup doesn't show, see TypeCastTestData.java
-                                        DocumentFragment range = createDocumentFragment(editorEx, region);
-                                        final Point p = SwingUtilities
-                                                .convertPoint((Component) e.getMouseEvent().getSource(),
-                                                        e.getMouseEvent().getPoint(),
-                                                        editorEx.getComponent().getRootPane().getLayeredPane());
-                                        TooltipController.getInstance().showTooltip(editorEx, p, new DocumentFragmentTooltipRenderer(range),
-                                                false, FOLDING_TOOLTIP_GROUP);
-                                        return;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } catch (IndexNotReadyException ignored) {
-                }
-            }
-        }
-        TooltipController.getInstance().cancelTooltip(FOLDING_TOOLTIP_GROUP, e.getMouseEvent(), true);
-    }
-
-    @Override
     public void mouseDragged(EditorMouseEvent e) {
 
     }

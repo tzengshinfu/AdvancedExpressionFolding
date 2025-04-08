@@ -32,7 +32,7 @@ public class ElvisExpression extends Expression {
         FoldingGroup group = FoldingGroup.newGroup(ElvisExpression.class.getName());
         descriptors.add(new FoldingDescriptor(element.getNode(),
                 TextRange.create(textRange.getStartOffset(), thenExpression.getTextRange().getStartOffset()),
-                group, ""));
+                group, "\u200B"));
         descriptors.add(new FoldingDescriptor(element.getNode(),
                 TextRange.create(thenExpression.getTextRange().getEndOffset(),
                         elseExpression.getTextRange().getStartOffset()),

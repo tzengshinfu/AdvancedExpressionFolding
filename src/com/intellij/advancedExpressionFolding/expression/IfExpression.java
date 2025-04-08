@@ -88,7 +88,7 @@ public class IfExpression extends Expression {
                                         this.element.getLParenth().getTextRange().getStartOffset() - 1), group, "assert"));
                         descriptors.add(new FoldingDescriptor(element.getNode(),
                                 TextRange.create(this.element.getLParenth().getTextRange().getStartOffset(),
-                                        this.element.getCondition().getTextRange().getStartOffset()), group, ""));
+                                        this.element.getCondition().getTextRange().getStartOffset()), group, "\u200B"));
                     } else {
                         descriptors.add(new FoldingDescriptor(element.getNode(),
                                 TextRange.create(this.element.getTextRange().getStartOffset(),
@@ -130,7 +130,7 @@ public class IfExpression extends Expression {
                         if (spacesAroundColon) {
                             descriptors.add(new FoldingDescriptor(element.getNode(),
                                     TextRange.create(this.element.getRParenth().getTextRange().getEndOffset() - 1,
-                                            throwStatement.getTextRange().getStartOffset() - 3), group, ""));
+                                            throwStatement.getTextRange().getStartOffset() - 3), group, "\u200B"));
                             descriptors.add(new FoldingDescriptor(element.getNode(),
                                     TextRange.create(throwStatement.getTextRange().getStartOffset() - 2,
                                             throwStatement.getTextRange().getStartOffset() - 1), group, ":"));
@@ -138,7 +138,7 @@ public class IfExpression extends Expression {
                                     TextRange.create(throwStatement.getTextRange().getStartOffset(),
                                             newException.getArgumentList()
                                                     .getExpressions()[0]
-                                                    .getTextRange().getStartOffset()), group, ""));
+                                                    .getTextRange().getStartOffset()), group, "\u200B"));
                         } else {
                             descriptors.add(new FoldingDescriptor(element.getNode(),
                                     TextRange.create(this.element.getCondition().getTextRange().getEndOffset(),
@@ -150,32 +150,32 @@ public class IfExpression extends Expression {
                             descriptors.add(new FoldingDescriptor(element.getNode(),
                                     TextRange.create(newException.getArgumentList()
                                                     .getExpressions()[0].getTextRange().getEndOffset(),
-                                            throwStatement.getTextRange().getEndOffset() - 1), group, ""));
+                                            throwStatement.getTextRange().getEndOffset() - 1), group, "\u200B"));
                             if (this.element.getTextRange().getEndOffset() > throwStatement.getTextRange().getEndOffset()) {
                                 descriptors.add(new FoldingDescriptor(element.getNode(),
                                         TextRange.create(throwStatement.getTextRange().getEndOffset(),
-                                                this.element.getTextRange().getEndOffset()), group, ""));
+                                                this.element.getTextRange().getEndOffset()), group, "\u200B"));
                             }
                         } else {
                             descriptors.add(new FoldingDescriptor(element.getNode(),
                                     TextRange.create(newException.getArgumentList()
                                                     .getExpressions()[0].getTextRange().getEndOffset(),
-                                            this.element.getTextRange().getEndOffset()), group, state.isSemicolonsCollapse() ? "" : ";"));
+                                            this.element.getTextRange().getEndOffset()), group, state.isSemicolonsCollapse() ? "\u200B" : ";"));
                         }
                     } else {
                         if (!state.isSemicolonsCollapse() && throwStatement.getText().endsWith(";")) {
                             descriptors.add(new FoldingDescriptor(element.getNode(),
                                     TextRange.create(this.element.getCondition().getTextRange().getEndOffset(),
-                                            throwStatement.getTextRange().getEndOffset() - 1), group, ""));
+                                            throwStatement.getTextRange().getEndOffset() - 1), group, "\u200B"));
                             if (this.element.getTextRange().getEndOffset() > throwStatement.getTextRange().getEndOffset()) {
                                 descriptors.add(new FoldingDescriptor(element.getNode(),
                                         TextRange.create(throwStatement.getTextRange().getEndOffset(),
-                                                this.element.getTextRange().getEndOffset()), group, ""));
+                                                this.element.getTextRange().getEndOffset()), group, "\u200B"));
                             }
                         } else {
                             descriptors.add(new FoldingDescriptor(element.getNode(),
                                     TextRange.create(this.element.getCondition().getTextRange().getEndOffset(),
-                                            this.element.getTextRange().getEndOffset()), group, state.isSemicolonsCollapse() ? "" : ";"));
+                                            this.element.getTextRange().getEndOffset()), group, state.isSemicolonsCollapse() ? "\u200B" : ";"));
                         }
                     }
                 }

@@ -27,11 +27,11 @@ public class ShortElvisExpression extends Expression {
         FoldingGroup group = FoldingGroup.newGroup(ShortElvisExpression.class.getName());
         descriptors.add(new FoldingDescriptor(element.getNode(),
                 TextRange.create(textRange.getStartOffset(), thenExpression.getTextRange().getStartOffset()),
-                group, ""));
+                group, "\u200B"));
         if (thenExpression.getTextRange().getEndOffset() < textRange.getEndOffset()) {
             descriptors.add(new FoldingDescriptor(element.getNode(),
                     TextRange.create(thenExpression.getTextRange().getEndOffset(),
-                            getTextRange().getEndOffset()), group, ""));
+                            getTextRange().getEndOffset()), group, "\u200B"));
         }
         nullify(element, document, descriptors, group, elements, true);
         if (thenExpression.supportsFoldRegions(document, this)) {

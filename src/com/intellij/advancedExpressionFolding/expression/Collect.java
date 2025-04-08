@@ -44,7 +44,7 @@ public class Collect extends Expression {
                         collectorTextRange.getStartOffset()), group, "."));
         descriptors.add(new FoldingDescriptor(element.getNode(),
                 TextRange.create(collectorTextRange.getEndOffset(),
-                        textRange.getEndOffset()), group, ""));
+                        textRange.getEndOffset()), group, "\u200B"));
         if (qualifier.supportsFoldRegions(document, this)) {
             Collections.addAll(descriptors, qualifier.buildFoldRegions(qualifier.getElement(), document, this));
         }

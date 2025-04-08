@@ -41,7 +41,7 @@ public abstract class AbstractControlFlowCodeBlock extends Expression {
         ArrayList<FoldingDescriptor> descriptors = new ArrayList<>();
         if (this.element.getLBrace() != null) {
             descriptors.add(new FoldingDescriptor(element.getNode(),
-                    this.element.getLBrace().getTextRange(), group, ""));
+                    this.element.getLBrace().getTextRange(), group, "\u200B"));
         }
         if (this.element.getRBrace() != null) {
             boolean smart = false;
@@ -90,7 +90,7 @@ public abstract class AbstractControlFlowCodeBlock extends Expression {
                         }
                         if (smart) {
                             descriptors.add(new FoldingDescriptor(element.getNode(),
-                                    TextRange.create(startOffset, endOffset), group, ""));
+                                    TextRange.create(startOffset, endOffset), group, "\u200B"));
                         }
                     }
                 }
@@ -115,7 +115,7 @@ public abstract class AbstractControlFlowCodeBlock extends Expression {
                         siblingKeyword != null ?
                                 TextRange.create(this.element.getRBrace().getTextRange().getStartOffset(),
                                         siblingKeyword.getTextRange().getStartOffset()) : this.element.getRBrace()
-                                .getTextRange(), group, ""));
+                                .getTextRange(), group, "\u200B"));
             }
         }
 

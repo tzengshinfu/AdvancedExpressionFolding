@@ -34,7 +34,7 @@ public class Cbrt extends Function implements ArithmeticExpression {
                 TextRange.create(operands.get(0).getTextRange().getEndOffset(),
                         getTextRange().getEndOffset()), group, operands.get(0) instanceof NumberLiteral ||
                 operands.get(0) instanceof Variable ?
-                "" : ")"));
+                "\u200B" : ")"));
         if (operands.get(0).supportsFoldRegions(document, this)) {
             Collections.addAll(descriptors, operands.get(0).buildFoldRegions(operands.get(0).getElement(), document, this));
         }

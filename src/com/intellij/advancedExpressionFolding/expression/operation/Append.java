@@ -62,7 +62,7 @@ public class Append extends Operation {
             );
             if (!range.isEmpty()) {
                 descriptors.add(new FoldingDescriptor(element.getNode(),
-                        range, group, ""));
+                        range, group, "\u200B"));
             }
         }
         if (a.supportsFoldRegions(document, this)) {
@@ -103,7 +103,7 @@ public class Append extends Operation {
             );
             if (!range.isEmpty()) {
                 descriptors.add(new FoldingDescriptor(element.getNode(),
-                        range, group, ""));
+                        range, group, "\u200B"));
             }
         }
         return descriptors.toArray(FoldingDescriptor.EMPTY_ARRAY);

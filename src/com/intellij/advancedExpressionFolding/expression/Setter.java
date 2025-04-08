@@ -45,7 +45,7 @@ public class Setter extends Expression {
             if (value.getTextRange().getEndOffset() < getTextRange().getEndOffset()) {
                 descriptors.add(new FoldingDescriptor(element.getNode(),
                         TextRange.create(value.getTextRange().getEndOffset(),
-                                getTextRange().getEndOffset()), group, ""));
+                                getTextRange().getEndOffset()), group, "\u200B"));
             }
         }
         if (object != null && object.supportsFoldRegions(document, this)) {
